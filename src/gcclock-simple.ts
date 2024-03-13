@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './editor';
 
-import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
+import { applyThemesOnElement, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import {
   CSSResult,
   customElement,
@@ -106,6 +106,16 @@ export class GcClockSimple extends LitElement {
     this.hour.style.transform = `rotateZ(${hh + mm / 12}deg)`;
     this.minute.style.transform = `rotateZ(${mm}deg)`;
     this.second.style.transform = `rotateZ(${ss}deg)`;
+  }
+
+  protected updated(changedProps: PropertyValues): void {
+    const oldHass = changedProps.get('_hass') as HomeAssistant | undefined;
+
+    const oldConfig = changedProps.get('config') as GcclockSimpleCardConfig | undefined;
+
+    if (!oldHass || !oldConfig || oldHass.themes !== this._hass.themes || oldConfig.theme !== this.config.theme) {
+      applyThemesOnElement(this, this._hass.themes, this.config.theme);
+    }
   }
 
   public connectedCallback(): void {

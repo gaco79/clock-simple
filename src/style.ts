@@ -11,12 +11,12 @@ const style = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--mdc-theme-background);
+    background-color: var(--card-background-color);
     background-image: url('https://imvpn22.github.io/analog-clock/clock.png');
     background-position: center center;
     background-size: cover;
     border-radius: 50%;
-    border: 4px solid var(--mdc-theme-background);
+    border: 4px solid var(--card-background-color);
     box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05), inset 0 -15px 15px rgba(255, 255, 255, 0.05),
       0 15px 15px rgba(0, 0, 0, 0.3), inset 0 15px 15px rgba(0, 0, 0, 0.3);
     transition: all ease 0.2s;
@@ -25,11 +25,11 @@ const style = css`
     content: '';
     height: 0.75rem;
     width: 0.75rem;
-    background-color: var(--mdc-theme-primary);
-    border: 2px solid var(--mdc-theme-background);
+    background-color: var(--primary-color);
+    border: 2px solid var(--card-background-color);
     position: absolute;
     border-radius: 50%;
-    z-index: 1000;
+    z-index: 2;
     transition: all ease 0.2s;
   }
   .hour,
@@ -53,7 +53,7 @@ const style = css`
     border-radius: 6px;
   }
   .min {
-    height: 50%;
+    height: 60%;
     width: 12em;
   }
   .min:before {
@@ -71,7 +71,7 @@ const style = css`
     content: '';
     height: 60%;
     width: 2px;
-    background-color: var(--mdc-theme-primary);
+    background-color: var(--primary-color);
     border-radius: 2px;
   }
 `;
