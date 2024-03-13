@@ -1,8 +1,12 @@
 import { css } from 'lit-element';
 
 const style = css`
+  ha-card.hide {
+    background: none;
+    border: none;
+  }
   .clock {
-    margin: 1rem;
+    margin: 2rem;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
@@ -37,7 +41,7 @@ const style = css`
     border-radius: 50%;
   }
   .hour {
-    height: 10em;
+    height: 40%;
     width: 10em;
   }
   .hour:before {
@@ -49,7 +53,7 @@ const style = css`
     border-radius: 6px;
   }
   .min {
-    height: 12em;
+    height: 50%;
     width: 12em;
   }
   .min:before {
@@ -60,7 +64,7 @@ const style = css`
     border-radius: 4px;
   }
   .sec {
-    height: 13em;
+    height: 60%;
     width: 13em;
   }
   .sec:before {

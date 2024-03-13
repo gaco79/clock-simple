@@ -19,18 +19,22 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     this._config = config;
   }
 
-  SCHEMA = [];
+  SCHEMA = [
+    { name: 'show_card_background', selector: { boolean: {} } },
+    { name: 'smooth_seconds', selector: { boolean: {} } },
+    { name: 'theme', selector: { theme: {} } },
+  ];
 
   private _computeLabel(schema): string {
     //console.log('schema', schema);
 
     switch (schema.name) {
-      case 'highlight_text_color':
-        return 'Text Colour';
-      case 'show_highlight_glow':
-        return 'Text Glow?';
-      case 'muted_text_brightness':
-        return 'Muted Text Brightness';
+      case 'show_card_background':
+        return 'Show Card Background?';
+      case 'smooth_seconds':
+        return 'Smooth Second Hand?';
+      case 'theme':
+        return 'Theme';
     }
 
     return 'aubergine';

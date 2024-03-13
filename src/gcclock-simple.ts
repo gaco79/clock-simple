@@ -79,13 +79,9 @@ export class GcClockSimple extends LitElement {
   }
 
   protected firstUpdated(changedProps: PropertyValues): void {
-    console.log('firstUpdated');
-
     this.hour = this.renderRoot.querySelector('.hour') as HTMLElement;
     this.minute = this.renderRoot.querySelector('.min') as HTMLElement;
     this.second = this.renderRoot.querySelector('.sec') as HTMLElement;
-
-    console.log('hour', this.hour);
 
     changedProps;
 
@@ -95,11 +91,17 @@ export class GcClockSimple extends LitElement {
   private updateClock(): void {
     if (!this.hour || !this.minute || !this.second) return;
 
-    let day = new Date();
+    const day = new Date();
 
-    let hh = day.getHours() * 30;
-    let mm = day.getMinutes() * this.deg;
-    let ss = day.getSeconds() * this.deg;
+    const hh = day.getHours() * 30;
+    const mm = day.getMinutes() * this.deg;
+
+    let ss;
+    if (this.config.smooth_seconds) {
+      ss = (day.getSeconds() + day.getMilliseconds() / 1000) * this.deg;
+    } else {
+      ss = day.getSeconds() * this.deg;
+    }
 
     this.hour.style.transform = `rotateZ(${hh + mm / 12}deg)`;
     this.minute.style.transform = `rotateZ(${mm}deg)`;
@@ -109,7 +111,7 @@ export class GcClockSimple extends LitElement {
   public connectedCallback(): void {
     super.connectedCallback();
 
-    this.timer = setInterval(() => this.updateClock(), 1000);
+    this.timer = setInterval(() => this.updateClock(), this.config.smooth_seconds ? 50 : 1000);
   }
 
   public disconnectedCallback(): void {
@@ -124,12 +126,16 @@ export class GcClockSimple extends LitElement {
     return 7;
   }
 
+  private get showCardBackground() {
+    return this.config.show_card_background ? '' : 'hide';
+  }
+
   /**
    * Rendering
    */
   protected render(): TemplateResult {
     return html`
-      <ha-card class="gcclock-simple">
+      <ha-card class="gcclock-simple ${this.showCardBackground}">
         <div class="clock">
           <div class="hour"></div>
           <div class="min"></div>
