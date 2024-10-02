@@ -214,9 +214,9 @@ customElements.define("gcclock-simple", GcClockSimple);
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "gcclock-simple",
-  name: "GC Clock Simple",
+  name: "Simple Analog Clock",
   description: "A simple analog clock card",
-  preview: false,
+  preview: true,
   documentationURL:
     "https://github.com/Your_Username/gcclock-simple/blob/main/README.md",
 });
