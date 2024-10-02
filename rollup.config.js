@@ -32,7 +32,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/gcclock-simple.ts',
+    input: 'src/gcclock-simple.js',
     context: 'window',
     output: {
       dir: 'dist',
