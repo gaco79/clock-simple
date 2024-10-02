@@ -36,23 +36,23 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "jest": "^26.6.3",
+    "jest": "^29.7.0",
     "prettier": "^1.19.1",
-    "rollup": "^1.32.1",
+    "rollup": "^4.24.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^5.3.1",
     "rollup-plugin-typescript2": "^0.24.3",
-    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-uglify": "^4.0.0",
     "typescript": "^3.9.7"
   },
   "scripts": {
     "build": "npm run check && npm run rollup",
-    "check": "eslint 'src/**/*.ts' && prettier --config .prettierrc 'src/**/*.ts' --check",
+    "check": "eslint 'src/**/*.js' && prettier --config .prettierrc 'src/**/*.js' --check",
     "rollup": "rollup -c",
-    "format": "eslint 'src/**/*.ts' --fix && prettier --config .prettierrc 'src/**/*.ts' --write",
+    "format": "eslint 'src/**/*.js' --fix && prettier --config .prettierrc 'src/**/*.js' --write",
     "start": "concurrently -n homeassistant,card -c blue,green -k \"echo starting home assistant at http://localhost:8123/... && hass -c /config\" \"rollup -c rollup.config.dev.js --watch -m\""
   }
 }

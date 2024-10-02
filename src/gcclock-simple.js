@@ -1,15 +1,10 @@
-import {
-  LitElement,
-  html,
-  css,
-} from "https://unpkg.com/lit-element@2.4.0/lit-element.js?module";
-import { CARD_VERSION, DEFAULT_CONFIG } from "./const.js";
-import "./editor.js";
+import './editor.js';
 
-console.info(
-  `%c gcclock-simple ${CARD_VERSION}`,
-  "color: white; background-color: #C6B145; font-weight: 700;"
-);
+import { css, html, LitElement } from 'https://unpkg.com/lit-element@2.4.0/lit-element.js?module';
+
+import { CARD_VERSION, DEFAULT_CONFIG } from './const.js';
+
+console.info(`%c gcclock-simple ${CARD_VERSION}`, 'color: white; background-color: #C6B145; font-weight: 700;');
 
 class GcClockSimple extends LitElement {
   static get properties() {
@@ -26,11 +21,11 @@ class GcClockSimple extends LitElement {
   }
 
   setConfig(config) {
-    if (!config.show_card_background && config.show_card_background !== false) {
-      config.show_card_background = DEFAULT_CONFIG.show_card_background;
+    if (!config.showCardBackground && config.showCardBackground !== false) {
+      config.showCardBackground = DEFAULT_CONFIG.showCardBackground;
     }
-    if (!config.smooth_movement && config.smooth_movement !== false) {
-      config.smooth_movement = DEFAULT_CONFIG.smooth_movement;
+    if (!config.smoothMovement && config.smoothMovement !== false) {
+      config.smoothMovement = DEFAULT_CONFIG.smoothMovement;
     }
     this.config = config;
     this.setupAnimation();
@@ -38,13 +33,13 @@ class GcClockSimple extends LitElement {
 
   static get editorDefinition() {
     return {
-      label: "GC Clock Simple",
-      editor: "gcclock-simple-editor",
+      label: 'GC Clock Simple',
+      editor: 'gcclock-simple-editor',
     };
   }
 
   static async getConfigElement() {
-    return document.createElement("gcclock-simple-editor");
+    return document.createElement('gcclock-simple-editor');
   }
 
   static getStubConfig() {
@@ -87,7 +82,7 @@ class GcClockSimple extends LitElement {
 
     let hoursAngle, minutesAngle, secondsAngle;
 
-    if (this.config.smooth_movement) {
+    if (this.config.smoothMovement) {
       hoursAngle = ((hours % 12) + minutes / 60 + seconds / 3600) * 30;
       minutesAngle = (minutes + seconds / 60 + milliseconds / 60000) * 6;
       secondsAngle = (seconds + milliseconds / 1000) * 6;
@@ -98,30 +93,26 @@ class GcClockSimple extends LitElement {
     }
 
     if (this.shadowRoot) {
-      const hourHand = this.shadowRoot.querySelector(".hour");
-      const minuteHand = this.shadowRoot.querySelector(".min");
-      const secondHand = this.shadowRoot.querySelector(".sec");
+      const hourHand = this.shadowRoot.querySelector('.hour');
+      const minuteHand = this.shadowRoot.querySelector('.min');
+      const secondHand = this.shadowRoot.querySelector('.sec');
 
       if (hourHand) hourHand.style.transform = `rotateZ(${hoursAngle}deg)`;
-      if (minuteHand)
-        minuteHand.style.transform = `rotateZ(${minutesAngle}deg)`;
-      if (secondHand)
-        secondHand.style.transform = `rotateZ(${secondsAngle}deg)`;
+      if (minuteHand) minuteHand.style.transform = `rotateZ(${minutesAngle}deg)`;
+      if (secondHand) secondHand.style.transform = `rotateZ(${secondsAngle}deg)`;
     }
   }
 
   updated(changedProperties) {
     super.updated(changedProperties);
-    if (changedProperties.has("config")) {
+    if (changedProperties.has('config')) {
       this.setupAnimation();
     }
   }
 
   render() {
     return html`
-      <ha-card
-        class="gcclock-simple ${this.config.show_card_background ? "" : "hide"}"
-      >
+      <ha-card class="gcclock-simple ${this.config.showCardBackground ? '' : 'hide'}">
         <div class="clock">
           <div class="hour"></div>
           <div class="min"></div>
@@ -143,19 +134,17 @@ class GcClockSimple extends LitElement {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: var(--card-background-color)
-          url("https://imvpn22.github.io/analog-clock/clock.png") center/cover
+        background: var(--card-background-color) url('https://imvpn22.github.io/analog-clock/clock.png') center/cover
           no-repeat;
         border: 4px solid var(--card-background-color);
         border-radius: 50%;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3),
-          inset 0 0 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.3);
       }
       .clock::before,
       .hour::before,
       .min::before,
       .sec::before {
-        content: "";
+        content: '';
         position: absolute;
         border-radius: 50%;
       }
@@ -209,14 +198,13 @@ class GcClockSimple extends LitElement {
   }
 }
 
-customElements.define("gcclock-simple", GcClockSimple);
+customElements.define('gcclock-simple', GcClockSimple);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "gcclock-simple",
-  name: "Simple Analog Clock",
-  description: "A simple analog clock card",
+  type: 'gcclock-simple',
+  name: 'Simple Analog Clock',
+  description: 'A simple analog clock card',
   preview: true,
-  documentationURL:
-    "https://github.com/Your_Username/gcclock-simple/blob/main/README.md",
+  documentationURL: 'https://github.com/Your_Username/gcclock-simple/blob/main/README.md',
 });

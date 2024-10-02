@@ -1,8 +1,4 @@
-import {
-  LitElement,
-  html,
-  css,
-} from "https://unpkg.com/lit-element@2.4.0/lit-element.js?module";
+import { css, html, LitElement } from 'https://unpkg.com/lit-element@2.4.0/lit-element.js?module';
 
 class GcClockSimpleEditor extends LitElement {
   static get properties() {
@@ -24,11 +20,10 @@ class GcClockSimpleEditor extends LitElement {
 
     const newConfig = {
       ...this.config,
-      [target.configValue]:
-        target.checked !== undefined ? target.checked : target.value,
+      [target.configValue]: target.checked !== undefined ? target.checked : target.value,
     };
 
-    const event = new CustomEvent("config-changed", {
+    const event = new CustomEvent('config-changed', {
       detail: { config: newConfig },
       bubbles: true,
       composed: true,
@@ -45,16 +40,16 @@ class GcClockSimpleEditor extends LitElement {
       <div class="card-config">
         <div class="switch-container">
           <ha-switch
-            .checked=${this.config.show_card_background || false}
-            .configValue=${"show_card_background"}
+            .checked=${this.config.showCardBackground || false}
+            .configValue=${'showCardBackground'}
             @change=${this.configChanged}
           ></ha-switch>
           <span>Show Card Background</span>
         </div>
         <div class="switch-container">
           <ha-switch
-            .checked=${this.config.smooth_movement || false}
-            .configValue=${"smooth_movement"}
+            .checked=${this.config.smoothMovement || false}
+            .configValue=${'smoothMovement'}
             @change=${this.configChanged}
           ></ha-switch>
           <span>Smooth Movement</span>
@@ -79,4 +74,4 @@ class GcClockSimpleEditor extends LitElement {
   }
 }
 
-customElements.define("gcclock-simple-editor", GcClockSimpleEditor);
+customElements.define('gcclock-simple-editor', GcClockSimpleEditor);
