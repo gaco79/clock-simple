@@ -1,18 +1,44 @@
 import './editor.js';
 
-import { css, html, LitElement } from 'https://unpkg.com/lit-element@2.4.0/lit-element.js?module';
+import { version } from '../package.json';
 
-import { CARD_VERSION, DEFAULT_CONFIG } from './const.js';
+import { customElement } from 'lit/decorators.js';
+import { css, html, LitElement, PropertyValues } from 'lit';
 
-console.info(`%c gcclock-simple ${CARD_VERSION}`, 'color: white; background-color: #C6B145; font-weight: 700;');
+import { DEFAULT_CONFIG } from './const.js';
 
-class GcClockSimple extends LitElement {
+declare global {
+  interface Window {
+    customCards?: Array<{
+      type: string;
+      name: string;
+      description: string;
+      preview?: boolean;
+      documentationURL?: string;
+    }>;
+  }
+}
+
+console.info(`%c gcclock-simple ${version}`, 'color: white; background-color: #C6B145; font-weight: 700;');
+
+interface GcClockSimpleConfig {
+  showCardBackground?: boolean;
+  smoothMovement?: boolean;
+  [key: string]: any;
+}
+
+@customElement('gcclock-simple')
+export class GcClockSimple extends LitElement {
   static get properties() {
     return {
-      hass: {},
+      hass: { type: Object },
       config: { type: Object },
     };
   }
+
+  hass?: any;
+  config: GcClockSimpleConfig;
+  animationFrameId: number | null;
 
   constructor() {
     super();
@@ -20,11 +46,11 @@ class GcClockSimple extends LitElement {
     this.animationFrameId = null;
   }
 
-  setConfig(config) {
-    if (!config.showCardBackground && config.showCardBackground !== false) {
+  setConfig(config: GcClockSimpleConfig): void {
+    if (config.showCardBackground === undefined) {
       config.showCardBackground = DEFAULT_CONFIG.showCardBackground;
     }
-    if (!config.smoothMovement && config.smoothMovement !== false) {
+    if (config.smoothMovement === undefined) {
       config.smoothMovement = DEFAULT_CONFIG.smoothMovement;
     }
     this.config = config;
@@ -38,49 +64,49 @@ class GcClockSimple extends LitElement {
     };
   }
 
-  static async getConfigElement() {
+  static async getConfigElement(): Promise<HTMLElement> {
     return document.createElement('gcclock-simple-editor');
   }
 
-  static getStubConfig() {
+  static getStubConfig(): GcClockSimpleConfig {
     return { ...DEFAULT_CONFIG };
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     this.setupAnimation();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback();
     this.stopAnimation();
   }
 
-  setupAnimation() {
+  setupAnimation(): void {
     this.stopAnimation();
-    this.animate();
+    this.performAnimation();
   }
 
-  stopAnimation() {
-    if (this.animationFrameId) {
+  stopAnimation(): void {
+    if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
   }
 
-  animate() {
+  performAnimation(): void {
     this.updateClock();
-    this.animationFrameId = requestAnimationFrame(() => this.animate());
+    this.animationFrameId = requestAnimationFrame(() => this.performAnimation());
   }
 
-  updateClock() {
+  updateClock(): void {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
     const milliseconds = now.getMilliseconds();
 
-    let hoursAngle, minutesAngle, secondsAngle;
+    let hoursAngle: number, minutesAngle: number, secondsAngle: number;
 
     if (this.config.smoothMovement) {
       hoursAngle = ((hours % 12) + minutes / 60 + seconds / 3600) * 30;
@@ -93,9 +119,9 @@ class GcClockSimple extends LitElement {
     }
 
     if (this.shadowRoot) {
-      const hourHand = this.shadowRoot.querySelector('.hour');
-      const minuteHand = this.shadowRoot.querySelector('.min');
-      const secondHand = this.shadowRoot.querySelector('.sec');
+      const hourHand = this.shadowRoot.querySelector<HTMLElement>('.hour');
+      const minuteHand = this.shadowRoot.querySelector<HTMLElement>('.min');
+      const secondHand = this.shadowRoot.querySelector<HTMLElement>('.sec');
 
       if (hourHand) hourHand.style.transform = `rotateZ(${hoursAngle}deg)`;
       if (minuteHand) minuteHand.style.transform = `rotateZ(${minutesAngle}deg)`;
@@ -103,7 +129,7 @@ class GcClockSimple extends LitElement {
     }
   }
 
-  updated(changedProperties) {
+  updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
     if (changedProperties.has('config')) {
       this.setupAnimation();
@@ -197,8 +223,6 @@ class GcClockSimple extends LitElement {
     `;
   }
 }
-
-customElements.define('gcclock-simple', GcClockSimple);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
