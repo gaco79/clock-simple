@@ -1,24 +1,36 @@
-import { css, html, LitElement } from 'https://unpkg.com/lit-element@2.4.0/lit-element.js?module';
+import { css, html, LitElement } from 'lit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { customElement } from 'lit/decorators.js';
 
+interface GcClockSimpleConfig {
+  showCardBackground?: boolean;
+  smoothMovement?: boolean;
+  [key: string]: any;
+}
+
+@customElement('gcclock-simple-editor')
 class GcClockSimpleEditor extends LitElement {
   static get properties() {
     return {
-      hass: {},
-      config: {},
+      hass: { type: Object },
+      config: { type: Object },
     };
   }
 
-  setConfig(config) {
+  hass?: any;
+  config?: GcClockSimpleConfig;
+
+  setConfig(config: GcClockSimpleConfig): void {
     this.config = config;
   }
 
-  configChanged(ev) {
-    const target = ev.target;
+  configChanged(ev: Event): void {
+    const target = ev.target as HTMLInputElement & { configValue: string };
     if (!this.config || !this.hass) {
       return;
     }
 
-    const newConfig = {
+    const newConfig: GcClockSimpleConfig = {
       ...this.config,
       [target.configValue]: target.checked !== undefined ? target.checked : target.value,
     };
@@ -73,5 +85,3 @@ class GcClockSimpleEditor extends LitElement {
     `;
   }
 }
-
-customElements.define('gcclock-simple-editor', GcClockSimpleEditor);

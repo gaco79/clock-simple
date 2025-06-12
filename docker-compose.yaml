@@ -1,7 +1,7 @@
 services:
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:stable
-    container_name: homeassistant
+    container_name: homeassistant-gcclock-simple
     privileged: true
     restart: unless-stopped
     volumes:
