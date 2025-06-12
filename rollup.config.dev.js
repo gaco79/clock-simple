@@ -1,8 +1,7 @@
-import resolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript2';
-import babel from 'rollup-plugin-babel';
-import serve from 'rollup-plugin-serve';
-import { terser } from 'rollup-plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import babel from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
+import resolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 
 export default {
@@ -13,20 +12,11 @@ export default {
   },
   plugins: [
     resolve(),
-    typescript(),
     json(),
+    typescript(),
     babel({
       exclude: 'node_modules/**',
     }),
     terser(),
-    serve({
-      contentBase: './dist',
-      host: '0.0.0.0',
-      port: 5000,
-      allowCrossOrigin: true,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    }),
   ],
 };
